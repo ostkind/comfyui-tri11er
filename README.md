@@ -1,6 +1,6 @@
 [![Docker Build](https://github.com/ai-dock/comfyui/actions/workflows/docker-build.yml/badge.svg)](https://github.com/ai-dock/comfyui/actions/workflows/docker-build.yml)
 
-# AI-Dock + ComfyUI Docker Image
+# tri11er specific - AI-Dock + ComfyUI Docker Image
 
 Run [ComfyUI](https://github.com/comfyanonymous/ComfyUI) in a cloud-first AI-Dock container.
 
