@@ -57,6 +57,14 @@ CONTROLNET_MODELS=(
     #"https://huggingface.co/webui/ControlNet-modules-safetensors/resolve/main/t2iadapter_style-fp16.safetensors"
 )
 
+AP_WORKFLOW_SNAPSHOT=(
+    "https://apworkflow.perilli.com/AP%20Workflow%209.0%20Custom%20Nodes%20Snapshot.json"
+)
+
+AP_WORKFLOW_JSON=(
+    "https://apworkflow.perilli.com/AP%20Workflow%209.0%20Custom%20Nodes%20Snapshot.json"
+)
+
 ### DO NOT EDIT BELOW HERE UNLESS YOU KNOW WHAT YOU ARE DOING ###
 
 function provisioning_start() {
@@ -81,6 +89,12 @@ function provisioning_start() {
     provisioning_get_models \
         "${WORKSPACE}/storage/stable_diffusion/models/esrgan" \
         "${ESRGAN_MODELS[@]}"
+    provisioning_get_ap_workflow_snapshot \
+        "${WORKSPACE}/Comfyui/custom_nodes/ComfyUI-Manager/snapshots/" \
+        "${AP_WORKFLOW_SNAPHOST[@]}"
+    provisioning_get_ap_workflow_json \
+        "${WORKSPACE}/storage/" \
+        "${AP_WORKFLOW_JSON[@]}"
     provisioning_print_end
 }
 
@@ -112,6 +126,24 @@ function provisioning_install_python_packages() {
         micromamba -n comfyui run ${PIP_INSTALL} ${PYTHON_PACKAGES[*]}
     fi
 }
+
+function provisioning_get_ap_workflow_snapshot() {
+    printf "Downloading %s snapshot(s) to %s...\n" "${#arr[@]}" "$dir"
+    for url in "${arr[@]}"; do
+        printf "Downloading: %s\n" "${url}"
+        provisioning_download "${url}" "${dir}"
+        printf "\n"
+    done
+    }
+
+function provisioning_get_ap_workflow_json() {
+    printf "Downloading %s Json (s) to %s...\n" "${#arr[@]}" "$dir"
+    for url in "${arr[@]}"; do
+        printf "Downloading: %s\n" "${url}"
+        provisioning_download "${url}" "${dir}"
+        printf "\n"
+    done
+    }
 
 function provisioning_get_models() {
     if [[ -z $2 ]]; then return 1; fi
