@@ -62,7 +62,7 @@ AP_WORKFLOW_SNAPSHOT=(
 )
 
 AP_WORKFLOW_JSON=(
-    "https://apworkflow.perilli.com/AP%20Workflow%209.0%20Custom%20Nodes%20Snapshot.json"
+    "https://apworkflow.perilli.com/AP%20Workflow%209.0%20for%20ComfyUI.json"
 )
 
 ### DO NOT EDIT BELOW HERE UNLESS YOU KNOW WHAT YOU ARE DOING ###
@@ -89,12 +89,8 @@ function provisioning_start() {
     provisioning_get_models \
         "${WORKSPACE}/storage/stable_diffusion/models/esrgan" \
         "${ESRGAN_MODELS[@]}"
-    provisioning_get_ap_workflow_snapshot \
-        "${WORKSPACE}/Comfyui/custom_nodes/ComfyUI-Manager/snapshots/" \
-        "${AP_WORKFLOW_SNAPHOST[@]}"
-    provisioning_get_ap_workflow_json \
-        "${WORKSPACE}/storage/" \
-        "${AP_WORKFLOW_JSON[@]}"
+    provisioning_get_ap_workflow_snapshot
+    provisioning_get_ap_workflow_json
     provisioning_print_end
 }
 
@@ -128,21 +124,11 @@ function provisioning_install_python_packages() {
 }
 
 function provisioning_get_ap_workflow_snapshot() {
-    printf "Downloading %s snapshot(s) to %s...\n" "${#arr[@]}" "$dir"
-    for url in "${arr[@]}"; do
-        printf "Downloading: %s\n" "${url}"
-        provisioning_download "${url}" "${dir}"
-        printf "\n"
-    done
+   wget -qnc --content-disposition --show-progress -e dotbytes="${3:-4M}" -P /Comfyui/custom_nodes/ComfyUI-Manager/snapshots/ https://apworkflow.perilli.com/AP%20Workflow%209.0%20Custom%20Nodes%20Snapshot.json
     }
 
 function provisioning_get_ap_workflow_json() {
-    printf "Downloading %s Json (s) to %s...\n" "${#arr[@]}" "$dir"
-    for url in "${arr[@]}"; do
-        printf "Downloading: %s\n" "${url}"
-        provisioning_download "${url}" "${dir}"
-        printf "\n"
-    done
+    wget -qnc --content-disposition --show-progress -e dotbytes="${3:-4M}" -P /workspace https://apworkflow.perilli.com/AP%20Workflow%209.0%20for%20ComfyUI.json
     }
 
 function provisioning_get_models() {
